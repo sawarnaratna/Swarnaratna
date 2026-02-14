@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from 'lucide-react';
 import Layout from '../components/Layout';
 import { useCart } from '../context/CartContext';
 
 const Cart = () => {
+  const navigate = useNavigate();
   const { items, totalItems, totalPrice, updateQuantity, removeFromCart, clearCart } = useCart();
 
   if (items.length === 0) {
@@ -28,6 +29,10 @@ const Cart = () => {
       </Layout>
     );
   }
+
+  const handleCheckout = () => {
+    navigate('/checkout');
+  };
 
   return (
     <Layout>
@@ -55,10 +60,10 @@ const Cart = () => {
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-12">
               {items.map((item) => (
-                <div key={item.id} className="group relative">
+                <div key={item._id || item.id} className="group relative">
                   <div className="flex items-start space-x-8 pb-12 border-b border-stone-50">
                     {/* Product Image */}
-                    <Link to={`/product/${item.id}`} className="block aspect-[3/4] w-32 overflow-hidden bg-stone-50">
+                    <Link to={`/product/${item._id || item.id}`} className="block aspect-[3/4] w-32 overflow-hidden bg-stone-50">
                       <img
                         src={item.image}
                         alt={item.name}
@@ -70,7 +75,7 @@ const Cart = () => {
                     <div className="flex-1 flex flex-col justify-between h-full py-2">
                       <div>
                         <Link
-                          to={`/product/${item.id}`}
+                          to={`/product/${item._id || item.id}`}
                           className="text-lg font-black text-stone-900 uppercase tracking-tight hover:text-emerald-900 transition-colors"
                         >
                           {item.name}
@@ -82,7 +87,7 @@ const Cart = () => {
                       <div className="mt-8 flex items-center space-x-6">
                         <div className="flex items-center border border-stone-100">
                           <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                            onClick={() => updateQuantity(item._id || item.id, item.quantity - 1)}
                             className="p-3 hover:bg-stone-50 transition-colors disabled:opacity-20"
                             disabled={item.quantity <= 1}
                           >
@@ -90,14 +95,14 @@ const Cart = () => {
                           </button>
                           <span className="w-8 text-center text-[11px] font-black">{item.quantity}</span>
                           <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item._id || item.id, item.quantity + 1)}
                             className="p-3 hover:bg-stone-50 transition-colors"
                           >
                             <Plus className="w-3 h-3 text-stone-900" />
                           </button>
                         </div>
                         <button
-                          onClick={() => removeFromCart(item.id)}
+                          onClick={() => removeFromCart(item._id || item.id)}
                           className="text-stone-300 hover:text-red-900 transition-colors"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -156,7 +161,10 @@ const Cart = () => {
                   </div>
                 </div>
 
-                <button className="w-full bg-emerald-900 text-white py-6 px-4 text-[11px] font-black uppercase tracking-[0.2em] hover:bg-emerald-950 transition-all duration-500 mt-12 shadow-2xl">
+                <button 
+                  onClick={handleCheckout}
+                  className="w-full bg-emerald-900 text-white py-6 px-4 text-[11px] font-black uppercase tracking-[0.2em] hover:bg-emerald-950 transition-all duration-500 mt-12 shadow-2xl"
+                >
                   Proceed to Secure Checkout
                 </button>
 

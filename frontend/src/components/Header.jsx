@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Menu, X, User, LogOut, LogIn, Search, Heart } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 
@@ -71,7 +72,7 @@ const Header = () => {
               <div className="hidden lg:flex items-center border-l border-stone-200 pl-5">
                 {user ? (
                   <div className="flex items-center space-x-3">
-                    <span className="text-[11px] font-black text-emerald-950 uppercase tracking-widest">Hi, {user.name.split(' ')[0]}</span>
+                    <Link to="/profile" className="text-[11px] font-black text-emerald-950 uppercase tracking-widest hover:text-emerald-700 transition-colors">Hi, {user.name.split(' ')[0]}</Link>
                     <button
                       onClick={logout}
                       className="p-2 text-stone-400 hover:text-red-600 transition-colors"
@@ -143,35 +144,77 @@ const Header = () => {
         </div>
 
         {/* Mobile Navigation Sidebar */}
-        {isMenuOpen && (
-          <div className="lg:hidden bg-white fixed inset-0 z-[60] p-8 animate-in fade-in slide-in-from-top duration-300">
-            <div className="flex justify-between items-center mb-12">
-              <img src="/Swarnaratna_Logo.jpeg" className="h-10 w-auto" alt="Logo" />
-              <button onClick={() => setIsMenuOpen(false)}><X className="w-8 h-8 text-emerald-950" /></button>
-            </div>
-            <div className="space-y-8">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`block text-3xl font-black uppercase tracking-tighter ${
-                    isActive(item.href) ? 'text-emerald-900' : 'text-stone-300'
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              ))}
-              <div className="pt-12 space-y-6">
-                {user ? (
-                  <button onClick={logout} className="text-red-600 font-bold uppercase tracking-widest text-sm">Sign Out</button>
-                ) : (
-                  <Link to="/login" onClick={() => setIsMenuOpen(false)} className="block text-emerald-950 font-bold uppercase tracking-widest text-sm">Sign In</Link>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <>
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsMenuOpen(false)}
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] lg:hidden"
+              />
+              <motion.div 
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                className="fixed right-0 top-0 bottom-0 w-[85%] max-w-sm bg-[#1a2e1a] z-[70] lg:hidden p-8 shadow-2xl flex flex-col"
+              >
+                <div className="flex justify-between items-center mb-16">
+                  <img src="/Swarnaratna_Logo.jpeg" className="h-12 w-auto brightness-200" alt="Logo" />
+                  <button 
+                    onClick={() => setIsMenuOpen(false)}
+                    className="p-2 text-[#d4af37] hover:rotate-90 transition-transform duration-300"
+                  >
+                    <X className="w-8 h-8" />
+                  </button>
+                </div>
+                
+                <nav className="flex-1 space-y-8">
+                  {navigation.map((item, idx) => (
+                    <motion.div
+                      key={item.name}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + idx * 0.1 }}
+                    >
+                      <Link
+                        to={item.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className={`block text-3xl font-black uppercase tracking-tighter transition-colors ${
+                          isActive(item.href) ? 'text-[#d4af37]' : 'text-stone-500 hover:text-white'
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                    </motion.div>
+                  ))}
+                </nav>
+
+                <div className="pt-12 border-t border-white/10 space-y-6">
+                  {user ? (
+                    <div className="flex items-center justify-between">
+                      <Link to="/profile" onClick={() => setIsMenuOpen(false)} className="text-[#d4af37] font-black uppercase tracking-widest text-xs">Hi, {user.name}</Link>
+                      <button onClick={logout} className="text-stone-400 hover:text-red-500 font-bold uppercase tracking-widest text-[10px] transition-colors">Sign Out</button>
+                    </div>
+                  ) : (
+                    <Link 
+                      to="/login" 
+                      onClick={() => setIsMenuOpen(false)} 
+                      className="flex items-center justify-center w-full bg-[#d4af37] text-emerald-950 py-4 px-6 text-[11px] font-black uppercase tracking-[0.2em] hover:bg-white transition-all duration-300"
+                    >
+                      Sign In
+                    </Link>
+                  )}
+                  <p className="text-[9px] text-stone-600 uppercase tracking-[0.3em] text-center pt-8">
+                    © 2024 Swarnaratna Premium
+                  </p>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </header>
     </div>
   );

@@ -1,6 +1,5 @@
-export const products = [
+const products = [
   {
-    id: 1,
     name: "Premium Almonds",
     description: "Fresh, crunchy almonds sourced from the finest orchards. Rich in healthy fats and perfect for snacking.",
     price: 450,
@@ -20,7 +19,6 @@ export const products = [
     }
   },
   {
-    id: 2,
     name: "California Cashews",
     description: "Buttery, creamy cashews with a delicate flavor. Perfect for cooking and snacking.",
     price: 520,
@@ -40,7 +38,6 @@ export const products = [
     }
   },
   {
-    id: 3,
     name: "Iranian Pistachios",
     description: "Premium pistachios with vibrant green kernels. Naturally sweet and crunchy.",
     price: 680,
@@ -60,7 +57,6 @@ export const products = [
     }
   },
   {
-    id: 4,
     name: "Medjool Dates",
     description: "Large, soft, and naturally sweet dates. Perfect for desserts and healthy snacking.",
     price: 380,
@@ -80,7 +76,6 @@ export const products = [
     }
   },
   {
-    id: 5,
     name: "Organic Almonds",
     description: "Certified organic almonds grown without pesticides. Perfect for health-conscious consumers.",
     price: 480,
@@ -100,7 +95,6 @@ export const products = [
     }
   },
   {
-    id: 6,
     name: "Roasted Cashews",
     description: "Perfectly roasted cashews with a golden color and enhanced flavor. Great for trail mix.",
     price: 550,
@@ -120,7 +114,6 @@ export const products = [
     }
   },
   {
-    id: 7,
     name: "Salted Pistachios",
     description: "Premium pistachios lightly salted for enhanced taste. Perfect party snack.",
     price: 720,
@@ -140,7 +133,6 @@ export const products = [
     }
   },
   {
-    id: 8,
     name: "Deglet Noor Dates",
     description: "Semi-dry dates with a rich, caramel-like flavor. Excellent for cooking and baking.",
     price: 320,
@@ -161,35 +153,4 @@ export const products = [
   }
 ];
 
-export const categories = [
-  { id: "all", name: "All Products", count: products.length },
-  { id: "nuts", name: "Nuts", count: products.filter(p => p.category === "nuts").length },
-  { id: "dates", name: "Dates", count: products.filter(p => p.category === "dates").length }
-];
-
-export const reviews = [
-  {
-    id: 1,
-    productId: 1,
-    user: "Priya Sharma",
-    rating: 5,
-    comment: "Absolutely delicious! The quality is outstanding and they arrived fresh.",
-    date: "2024-01-15"
-  },
-  {
-    id: 2,
-    productId: 1,
-    user: "Rajesh Kumar",
-    rating: 4,
-    comment: "Great almonds, very crunchy and fresh. Will order again.",
-    date: "2024-01-10"
-  },
-  {
-    id: 3,
-    productId: 2,
-    user: "Anita Patel",
-    rating: 5,
-    comment: "These cashews are perfect for my cooking. Love the buttery texture!",
-    date: "2024-01-12"
-  }
-];
+module.exports = products;

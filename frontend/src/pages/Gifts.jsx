@@ -1,14 +1,14 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gift, Plus, Minus, Trash2, ArrowRight, Check, Package, Sparkles } from 'lucide-react';
-import { products } from '../data/products';
+import { Gift, Plus, Minus, Trash2, ArrowRight, Check, Package, Sparkles, Loader2 } from 'lucide-react';
+import axios from 'axios';
 import { useCart } from '../context/CartContext';
 import ProductCard from '../components/ProductCard';
 
 const preMadeHampers = [
   {
-    id: 'h1',
+    _id: 'h1',
     name: 'The Royal Collection',
     description: 'A grand assortment of our finest jumbo cashews, organic almonds, and saffron-infused pistachios in a handcrafted wooden box.',
     price: 2499,
@@ -19,7 +19,7 @@ const preMadeHampers = [
     reviews: 42
   },
   {
-    id: 'h2',
+    _id: 'h2',
     name: 'Wellness Treasure',
     description: 'The perfect gift for the health-conscious. Includes organic walnuts, goji berries, and premium flax seeds.',
     price: 1850,
@@ -30,7 +30,7 @@ const preMadeHampers = [
     reviews: 28
   },
   {
-    id: 'h3',
+    _id: 'h3',
     name: 'Silk Route Delights',
     description: 'Explore the flavors of the ancient Silk Route with exotic dates, dried figs, and roasted apricots.',
     price: 1599,
@@ -44,8 +44,24 @@ const preMadeHampers = [
 
 const Gifts = () => {
   const { addToCart } = useCart();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [customItems, setCustomItems] = useState([]);
   const [activeTab, setActiveTab] = useState('curated'); // 'curated' or 'custom'
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const { data } = await axios.get('http://localhost:5000/api/products');
+        setProducts(data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Failed to fetch products');
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   const totalPrice = useMemo(() => {
     const basePrice = 250; // Packaging cost
@@ -55,9 +71,9 @@ const Gifts = () => {
 
   const handleAddCustomItem = (product) => {
     setCustomItems(prev => {
-      const existing = prev.find(item => item.id === product.id);
+      const existing = prev.find(item => (item._id || item.id) === (product._id || product.id));
       if (existing) {
-        return prev.map(item => item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item);
+        return prev.map(item => (item._id || item.id) === (product._id || product.id) ? { ...item, quantity: item.quantity + 1 } : item);
       }
       return [...prev, { ...product, quantity: 1 }];
     });
@@ -65,7 +81,7 @@ const Gifts = () => {
 
   const handleUpdateQuantity = (id, change) => {
     setCustomItems(prev => prev.map(item => {
-      if (item.id === id) {
+      if ((item._id || item.id) === id) {
         const newQty = Math.max(0, item.quantity + change);
         return newQty === 0 ? null : { ...item, quantity: newQty };
       }
@@ -76,7 +92,7 @@ const Gifts = () => {
   const handleAddHamperToCart = (hamper) => {
     addToCart({
       ...hamper,
-      id: `hamper-${hamper.id}`, // Unique ID for cart
+      _id: `hamper-${hamper._id}`, // Unique ID for cart
       name: `${hamper.name} (Curated Hamper)`,
     });
   };
@@ -85,7 +101,7 @@ const Gifts = () => {
     if (customItems.length === 0) return;
     
     addToCart({
-      id: `custom-hamper-${Date.now()}`,
+      _id: `custom-hamper-${Date.now()}`,
       name: 'Bespoke Gift Hamper',
       price: totalPrice,
       image: 'https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?w=200',
@@ -216,21 +232,27 @@ const Gifts = () => {
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                    {products.map((product) => (
-                      <div key={product.id} className="flex items-center space-x-6 p-6 border border-stone-100 bg-stone-50/30 hover:bg-stone-50 transition-colors">
-                        <img src={product.image} className="w-16 h-20 object-cover" alt="" />
-                        <div className="flex-1">
-                          <h4 className="text-[11px] font-black text-stone-900 uppercase tracking-widest">{product.name}</h4>
-                          <p className="text-emerald-900 font-black text-sm mt-1">₹{product.price}</p>
-                        </div>
-                        <button 
-                          onClick={() => handleAddCustomItem(product)}
-                          className="p-3 bg-white border border-stone-100 hover:border-emerald-900 transition-colors shadow-sm"
-                        >
-                          <Plus className="w-4 h-4 text-emerald-900" />
-                        </button>
+                    {loading ? (
+                      <div className="col-span-2 flex justify-center py-24">
+                        <Loader2 className="w-10 h-10 text-emerald-900 animate-spin" />
                       </div>
-                    ))}
+                    ) : (
+                      products.map((product) => (
+                        <div key={product._id || product.id} className="flex items-center space-x-6 p-6 border border-stone-100 bg-stone-50/30 hover:bg-stone-50 transition-colors">
+                          <img src={product.image} className="w-16 h-20 object-cover" alt="" />
+                          <div className="flex-1">
+                            <h4 className="text-[11px] font-black text-stone-900 uppercase tracking-widest">{product.name}</h4>
+                            <p className="text-emerald-900 font-black text-sm mt-1">₹{product.price}</p>
+                          </div>
+                          <button 
+                            onClick={() => handleAddCustomItem(product)}
+                            className="p-3 bg-white border border-stone-100 hover:border-emerald-900 transition-colors shadow-sm"
+                          >
+                            <Plus className="w-4 h-4 text-emerald-900" />
+                          </button>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
 
@@ -251,15 +273,15 @@ const Gifts = () => {
                       ) : (
                         <ul className="space-y-6">
                           {customItems.map((item) => (
-                            <li key={item.id} className="flex items-center justify-between border-b border-white/5 pb-6">
+                            <li key={item._id || item.id} className="flex items-center justify-between border-b border-white/5 pb-6">
                               <div className="flex-1">
                                 <h4 className="text-[12px] font-black uppercase tracking-widest">{item.name}</h4>
                                 <p className="text-[#d4af37] text-[10px] font-bold mt-1">₹{item.price * item.quantity}</p>
                               </div>
                               <div className="flex items-center space-x-4">
-                                <button onClick={() => handleUpdateQuantity(item.id, -1)} className="p-1 text-white/40 hover:text-white transition-colors"><Minus className="w-4 h-4" /></button>
+                                <button onClick={() => handleUpdateQuantity(item._id || item.id, -1)} className="p-1 text-white/40 hover:text-white transition-colors"><Minus className="w-4 h-4" /></button>
                                 <span className="text-[12px] font-black w-4 text-center">{item.quantity}</span>
-                                <button onClick={() => handleUpdateQuantity(item.id, 1)} className="p-1 text-white/40 hover:text-white transition-colors"><Plus className="w-4 h-4" /></button>
+                                <button onClick={() => handleUpdateQuantity(item._id || item.id, 1)} className="p-1 text-white/40 hover:text-white transition-colors"><Plus className="w-4 h-4" /></button>
                               </div>
                             </li>
                           ))}

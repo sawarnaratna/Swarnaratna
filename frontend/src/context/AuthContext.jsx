@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 const AuthContext = createContext();
+
+const API_URL = 'http://localhost:5000/api/users';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -15,20 +18,32 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = (email, password) => {
-    // Mock login logic
-    const mockUser = { id: 1, name: 'John Doe', email };
-    setUser(mockUser);
-    localStorage.setItem('swarnaratna_user', JSON.stringify(mockUser));
-    return true;
+  const login = async (email, password) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/login`, { email, password });
+      setUser(data);
+      localStorage.setItem('swarnaratna_user', JSON.stringify(data));
+      return { success: true };
+    } catch (error) {
+      return { 
+        success: false, 
+        message: error.response?.data?.message || 'Login failed' 
+      };
+    }
   };
 
-  const register = (name, email, password) => {
-    // Mock register logic
-    const mockUser = { id: Date.now(), name, email };
-    setUser(mockUser);
-    localStorage.setItem('swarnaratna_user', JSON.stringify(mockUser));
-    return true;
+  const register = async (name, email, password) => {
+    try {
+      const { data } = await axios.post(API_URL, { name, email, password });
+      setUser(data);
+      localStorage.setItem('swarnaratna_user', JSON.stringify(data));
+      return { success: true };
+    } catch (error) {
+      return { 
+        success: false, 
+        message: error.response?.data?.message || 'Registration failed' 
+      };
+    }
   };
 
   const logout = () => {

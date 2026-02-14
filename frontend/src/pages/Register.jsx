@@ -13,7 +13,7 @@ const Register = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     
@@ -28,11 +28,11 @@ const Register = () => {
     }
 
     try {
-      const success = register(name, email, password);
-      if (success) {
+      const result = await register(name, email, password);
+      if (result.success) {
         navigate('/');
       } else {
-        setError('Registration failed');
+        setError(result.message);
       }
     } catch (err) {
       setError('An error occurred. Please try again.');

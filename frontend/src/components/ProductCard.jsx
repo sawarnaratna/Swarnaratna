@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
       viewport={{ once: true }}
       className="bg-white group overflow-hidden flex flex-col"
     >
-      <Link to={`/product/${product.id}`} className="relative block overflow-hidden aspect-[3/4]">
+      <Link to={`/product/${product._id || product.id}`} className="relative block overflow-hidden aspect-[3/4]">
         <motion.img
           whileHover={{ scale: 1.08 }}
           transition={{ duration: 0.9, ease: [0.33, 1, 0.68, 1] }}
@@ -29,16 +29,24 @@ const ProductCard = ({ product }) => {
           className="w-full h-full object-cover"
         />
         
-        {/* Minimalist Quick Add */}
-        <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center p-6">
+        {/* Minimalist Quick Add - Visible on hover for desktop, persistent for mobile touch */}
+        <div className="absolute inset-0 bg-black/5 opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center p-4 sm:p-6">
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={handleAddToCart}
-            className="w-full bg-emerald-900 text-white py-4 text-[10px] font-black uppercase tracking-[0.2em] transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 shadow-2xl"
+            className="w-full bg-emerald-950 text-[#d4af37] py-4 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] transform translate-y-4 lg:group-hover:translate-y-0 transition-transform duration-500 shadow-2xl border border-[#d4af37]/20"
           >
-            Quick Add
+            Add to Selection
           </motion.button>
         </div>
+
+        {/* Mobile-only visible Add to Cart icon */}
+        <button 
+          onClick={handleAddToCart}
+          className="lg:hidden absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg border border-stone-100 text-emerald-950 active:scale-90 transition-transform"
+        >
+          <ShoppingCart className="w-4 h-4" />
+        </button>
 
         {product.originalPrice > product.price && (
           <div className="absolute top-4 left-4 bg-emerald-900 text-white px-3 py-1 text-[9px] font-black uppercase tracking-tighter">

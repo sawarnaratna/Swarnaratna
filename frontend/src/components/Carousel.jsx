@@ -34,21 +34,21 @@ const Carousel = ({ children }) => {
       {showLeftArrow && (
         <button
           onClick={() => scroll('left')}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -ml-6 z-20 bg-emerald-950 border border-emerald-900/30 text-emerald-100 p-4 hover:bg-emerald-900 hover:text-white transition-all duration-500 shadow-2xl group/btn"
+          className="absolute left-0 top-1/2 -translate-y-1/2 -ml-2 lg:-ml-6 z-20 bg-emerald-950 border border-emerald-900/30 text-[#d4af37] p-3 lg:p-4 hover:bg-emerald-900 hover:text-white transition-all duration-500 shadow-2xl group/btn"
           aria-label="Previous"
         >
-          <ChevronLeft className="w-5 h-5 transition-transform group-hover/btn:-translate-x-1" />
+          <ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 transition-transform group-hover/btn:-translate-x-1" />
         </button>
       )}
       
       <div
         ref={scrollContainerRef}
         onScroll={checkArrows}
-        className="flex overflow-x-auto gap-8 scrollbar-hide snap-x snap-mandatory pb-8 pt-4 px-1"
+        className="flex overflow-x-auto gap-4 lg:gap-8 scrollbar-hide snap-x snap-mandatory pb-8 pt-4 px-1"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {React.Children.map(children, (child) => (
-          <div className="flex-none w-[85%] sm:w-[45%] lg:w-[calc(25%-1.5rem)] snap-start transition-all duration-500 hover:z-10">
+          <div className="flex-none w-[75%] sm:w-[45%] lg:w-[calc(25%-1.5rem)] snap-start transition-all duration-500 hover:z-10">
             {child}
           </div>
         ))}
@@ -57,10 +57,10 @@ const Carousel = ({ children }) => {
       {showRightArrow && (
         <button
           onClick={() => scroll('right')}
-          className="absolute right-0 top-1/2 -translate-y-1/2 -mr-6 z-20 bg-emerald-950 border border-emerald-900/30 text-emerald-100 p-4 hover:bg-emerald-900 hover:text-white transition-all duration-500 shadow-2xl group/btn"
+          className="absolute right-0 top-1/2 -translate-y-1/2 -mr-2 lg:-mr-6 z-20 bg-emerald-950 border border-emerald-900/30 text-[#d4af37] p-3 lg:p-4 hover:bg-emerald-900 hover:text-white transition-all duration-500 shadow-2xl group/btn"
           aria-label="Next"
         >
-          <ChevronRight className="w-5 h-5 transition-transform group-hover/btn:translate-x-1" />
+          <ChevronRight className="w-4 h-4 lg:w-5 lg:h-5 transition-transform group-hover/btn:translate-x-1" />
         </button>
       )}
 

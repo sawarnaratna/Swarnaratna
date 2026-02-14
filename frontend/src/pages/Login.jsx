@@ -14,7 +14,7 @@ const Login = () => {
 
   const from = location.state?.from?.pathname || '/';
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     
@@ -24,11 +24,11 @@ const Login = () => {
     }
 
     try {
-      const success = login(email, password);
-      if (success) {
+      const result = await login(email, password);
+      if (result.success) {
         navigate(from, { replace: true });
       } else {
-        setError('Invalid email or password');
+        setError(result.message);
       }
     } catch (err) {
       setError('An error occurred. Please try again.');

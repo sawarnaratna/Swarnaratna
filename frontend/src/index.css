@@ -5,8 +5,20 @@
   --font-sans: "Inter", sans-serif;
 }
 
-:root {
-  font-family: var(--font-sans);
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #ffffff;
+  color: #1a1a1a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: #1a2e1a;
+  color: #d4af37;
 }
 
 h1, h2, h3, h4, h5, h6 {

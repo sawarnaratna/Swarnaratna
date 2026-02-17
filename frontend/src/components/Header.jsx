@@ -36,7 +36,7 @@ const Header = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="w-full relative z-[100]">
+    <div className="w-full relative top-0 z-[100]">
       {/* Premium Top Announcement */}
       <div className="bg-[#1a2e1a] text-[#d4af37] py-2.5 px-4 sm:px-6 lg:px-8 text-[9px] sm:text-[10px] flex justify-center items-center font-black tracking-[0.3em] uppercase border-b border-white/5 relative z-[101]">
         <Sparkles className="w-3 h-3 mr-3 animate-pulse" />
@@ -44,10 +44,10 @@ const Header = () => {
       </div>
 
       <header 
-        className={`fixed w-full transition-all duration-500 top-[37px] ${
+        className={`fixed w-full transition-all duration-500 ${
           isScrolled 
-          ? 'bg-white/90 backdrop-blur-xl h-20 shadow-xl border-b border-stone-100' 
-          : 'bg-white/50 backdrop-blur-sm h-24 sm:h-28'
+          ? 'bg-white top-0 backdrop-blur-xl h-20 shadow-xl border-b border-stone-100' 
+          : 'bg-white backdrop-blur-sm h-24 sm:h-28'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
@@ -55,12 +55,12 @@ const Header = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center flex-shrink-0 group relative">
               <motion.div
-                animate={{ scale: isScrolled ? 0.85 : 1 }}
+                animate={{ scale: isScrolled ? 0.8 : 1 }}
                 transition={{ duration: 0.5 }}
                 className="relative"
               >
                 <img 
-                  src="/Swarnaratna_Logo.png" 
+                  src="/Swarnaratna_Logo.jpeg" 
                   alt="Swarnaratna Logo" 
                   className="h-16 sm:h-24 w-auto object-contain transition-all duration-500 group-hover:scale-105"
                 />

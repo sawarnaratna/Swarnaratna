@@ -22,6 +22,7 @@ const ProductCard = ({ product }) => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
+        id={`product-${product._id || product.id}`}
         className="bg-white group overflow-hidden flex flex-col relative"
       >
         <Link to={`/product/${product._id || product.id}`} className="relative block overflow-hidden aspect-[3/4]">

@@ -30,7 +30,7 @@ const Carousel = ({ children }) => {
   };
 
   return (
-    <div className="relative group">
+    <div className="relative">
       {showLeftArrow && (
         <button
           onClick={() => scroll('left')}

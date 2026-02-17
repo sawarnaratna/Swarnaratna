@@ -1,8 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:ital,wght@0,100;0,300;0,400;0,700;0,900;1,400&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "Playfair Display", serif;
-  --font-sans: "Inter", sans-serif;
+  --font-serif: "Cinzel", serif;
+  --font-sans: "Montserrat", sans-serif;
+  --font-display: "Cinzel", serif;
+  
+  /* Natural Luxury Palette */
+  --color-warm-brown: #4a3728;
+  --color-beige-silk: #f5f2ed;
+  --color-harvest-gold: #d4af37;
+  --color-earth-green: #2d3e2d;
+  --color-marble-white: #ffffff;
 }
 
 html {
@@ -10,20 +19,39 @@ html {
 }
 
 body {
-  background-color: #ffffff;
+  background-color: var(--color-marble-white);
   color: #1a1a1a;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Luxury Textures */
+.texture-wood {
+  background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+}
+
+.texture-jute {
+  background-image: url('https://www.transparenttextures.com/patterns/jute-light.png');
+}
+
+.texture-marble {
+  background-image: url('https://www.transparenttextures.com/patterns/marble-similar.png');
+}
+
+.bg-warm-gradient {
+  background: linear-gradient(135deg, #f5f2ed 0%, #e8e2d6 100%);
+}
+
 ::selection {
-  background-color: #1a2e1a;
-  color: #d4af37;
+  background-color: var(--color-earth-green);
+  color: var(--color-harvest-gold);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
-  letter-spacing: -0.02em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .font-serif {
@@ -34,7 +62,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-sans);
 }
 
-/* Refine text weights for the new fonts */
+.font-display {
+  font-family: var(--font-display);
+}
+
 .font-black {
-  font-weight: 800; /* Slightly lighter than 900 for better readability with Playfair */
+  font-weight: 900;
 }

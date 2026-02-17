@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 import { 
   Star, Shield, Truck, Award, ChevronRight, ArrowRight, 
   ShoppingCart, CheckCircle, Package, Globe, Loader2, 
-  Quote, Heart, Sparkles, Gem, Leaf 
+  Quote, Heart, Sparkles, Gem, Leaf, Instagram 
 } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import axios from 'axios';
 import Layout from '../components/Layout';
 import ProductCard from '../components/ProductCard';
+import ProductSkeleton from '../components/ProductSkeleton';
 import Hero from '../components/Hero';
 import Carousel from '../components/Carousel';
 
@@ -38,16 +39,16 @@ const Home = () => {
   const bestSellers = products.slice(0, 8);
   
   const categories = [
-    { name: 'Exotic Nuts', img: 'https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=800', color: 'bg-emerald-50' },
-    { name: 'Premium Dates', img: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800', color: 'bg-amber-50' },
-    { name: 'Dry Berries', img: 'https://images.unsplash.com/photo-1564729694921-2e9a7b79c9a5?w=800', color: 'bg-stone-50' },
-    { name: 'Luxury Gifts', img: 'https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?w=800', color: 'bg-emerald-50' },
+    { name: 'Exotic Nuts', img: '/almond.webp', color: 'bg-emerald-50' },
+    { name: 'Premium Dates', img: '/dates.webp', color: 'bg-amber-50' },
+    { name: 'Dry Berries', img: '/Cranberries.webp', color: 'bg-stone-50' },
+    { name: 'Luxury Gifts', img: '/dryfruits-dry-fruits-01.webp', color: 'bg-emerald-50' },
   ];
 
   const processSteps = [
     { icon: Globe, title: "Global Sourcing", desc: "Hand-picked from the most fertile lands on Earth." },
     { icon: Gem, title: "Artisanal Sorting", desc: "Each kernel undergoes meticulous quality inspection." },
-    { icon: Sparkles, title: "Gourmet Curing", desc: "Traditional methods to lock in natural oils and flavor." },
+    { icon: Sparkles, title: "Goverment Curing", desc: "Traditional methods to lock in natural oils and flavor." },
     { icon: Award, title: "Elegant Packaging", desc: "Sealed in oxygen-free environments for lasting freshness." }
   ];
 
@@ -93,7 +94,7 @@ const Home = () => {
               whileInView={{ opacity: 1, letterSpacing: '0.6em' }}
               className="text-[#d4af37] text-[10px] font-black uppercase mb-6"
             >
-              The Swarnaratna Way
+              The Swarnaratna Legacy
             </motion.p>
             <h2 className="text-4xl md:text-6xl font-black text-stone-900 tracking-tighter uppercase italic">From Soil to Soul</h2>
             <div className="w-24 h-[1px] bg-emerald-900 mx-auto mt-10" />
@@ -152,6 +153,43 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Gift Hampers Section - NEW */}
+      <section className="py-32 bg-white texture-marble">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-24">
+            <h2 className="text-[10px] font-black text-harvest-gold uppercase tracking-[0.6em] mb-6">Imperial Gifting</h2>
+            <h3 className="text-4xl md:text-6xl font-black text-warm-brown tracking-tighter uppercase italic">Curated Hampers</h3>
+            <div className="w-24 h-[1px] bg-warm-brown mx-auto mt-10" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {[
+              { name: "The Royal Treasury", price: "₹2,499", img: "/figs.webp" },
+              { name: "Majestic Harvest", price: "₹4,999", img: "/walnut.webp" },
+              { name: "Imperial Gold", price: "₹8,999", img: "/Pistachio.webp" }
+            ].map((hamper, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="group cursor-pointer"
+              >
+                <div className="relative aspect-[4/5] overflow-hidden mb-8 shadow-xl">
+                  <img src={hamper.img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" alt={hamper.name} />
+                  <div className="absolute inset-0 bg-warm-brown/20 group-hover:bg-transparent transition-all" />
+                  <div className="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-warm-brown/80 to-transparent">
+                    <span className="text-white font-black uppercase tracking-widest text-[10px]">Premium Hamper</span>
+                  </div>
+                </div>
+                <h4 className="font-black text-warm-brown uppercase tracking-[0.2em] text-sm mb-2">{hamper.name}</h4>
+                <p className="text-harvest-gold font-serif italic text-xl">{hamper.price}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Featured Products - High Contrast */}
       <section className="py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -167,8 +205,10 @@ const Home = () => {
           </div>
 
           {loading ? (
-            <div className="flex justify-center items-center py-24">
-              <Loader2 className="w-12 h-12 text-emerald-900 animate-spin" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[...Array(4)].map((_, i) => (
+                <ProductSkeleton key={i} />
+              ))}
             </div>
           ) : error ? (
             <div className="text-center py-24 bg-stone-50 border border-stone-100">
@@ -181,71 +221,6 @@ const Home = () => {
               ))}
             </Carousel>
           )}
-        </div>
-      </section>
-
-      {/* Luxury Promo Section - Enhanced with Parallax-like elements */}
-      <section className="py-32 bg-[#1a2e1a] text-white overflow-hidden relative">
-        <motion.div 
-          style={{ y: y1 }}
-          className="absolute -top-24 -right-24 w-96 h-96 border border-white/5 rounded-full pointer-events-none"
-        />
-        <motion.div 
-          style={{ y: y2 }}
-          className="absolute -bottom-24 -left-24 w-64 h-64 border border-[#d4af37]/10 rounded-full pointer-events-none"
-        />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-24">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              className="relative aspect-[4/5] lg:aspect-square group"
-            >
-              <img 
-                src="https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=1000" 
-                className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-1000" 
-                alt="Craftsmanship" 
-              />
-              <div className="absolute -inset-6 border border-[#d4af37]/20 -z-10 group-hover:-inset-2 transition-all duration-700" />
-              <div className="absolute top-10 -right-10 bg-[#d4af37] text-emerald-950 p-10 hidden md:block shadow-2xl">
-                <p className="text-[10px] font-black uppercase tracking-[0.4em] mb-2">Heritage</p>
-                <p className="text-2xl font-serif italic font-black">Est. 1995</p>
-              </div>
-            </motion.div>
-            
-            <div className="space-y-12">
-              <div className="space-y-6">
-                <motion.p 
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  className="text-[#d4af37] text-[10px] font-black tracking-[0.6em] uppercase"
-                >
-                  The Swarnaratna Standard
-                </motion.p>
-                <h2 className="text-5xl md:text-8xl font-black leading-[0.9] tracking-tighter uppercase italic">Elegance in <br /> Every Kernel.</h2>
-              </div>
-              <p className="text-stone-300 text-lg md:text-2xl font-light leading-relaxed italic border-l-2 border-[#d4af37]/30 pl-10">
-                "Our legacy is built on the pursuit of perfection. From the sun-drenched hills of California to the ancient groves of the Middle East, we bring you dry fruits that are as beautiful as they are nutritious."
-              </p>
-              <div className="pt-10 flex flex-col sm:flex-row gap-8">
-                <Link 
-                  to="/about" 
-                  className="inline-block px-16 py-6 bg-[#d4af37] text-emerald-950 font-black uppercase tracking-[0.3em] text-[11px] hover:bg-white transition-all duration-500 shadow-2xl"
-                >
-                  Our Heritage
-                </Link>
-                <Link 
-                  to="/contact" 
-                  className="inline-block px-16 py-6 border border-[#d4af37] text-[#d4af37] font-black uppercase tracking-[0.3em] text-[11px] hover:bg-[#d4af37] hover:text-emerald-950 transition-all duration-500"
-                >
-                  Private Concierge
-                </Link>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -292,10 +267,46 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Patrons of Swarnaratna - Instagram Gallery */}
+      <section className="py-32 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-24">
+            <h2 className="text-[10px] font-black text-harvest-gold uppercase tracking-[0.6em] mb-6">Social Heritage</h2>
+            <h3 className="text-4xl md:text-6xl font-black text-warm-brown tracking-tighter uppercase italic">Patrons of Swarnaratna</h3>
+            <div className="w-24 h-[1px] bg-warm-brown mx-auto mt-10" />
+            <p className="mt-10 text-stone-400 font-light italic text-lg">Tag us to be featured in our imperial gallery.</p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {[
+              "/almond.webp",
+              "/cashew.webp",
+              "/Pistachio.webp",
+              "/walnut.webp",
+              "/dates.webp",
+              "/Cranberries.webp"
+            ].map((img, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.1 }}
+                className="relative aspect-square group overflow-hidden cursor-pointer"
+              >
+                <img src={img} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110" alt="" />
+                <div className="absolute inset-0 bg-harvest-gold/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                  <Instagram className="text-white w-8 h-8" />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Newsletter / VIP - NEW */}
       <section className="py-32 bg-white px-4">
         <div className="max-w-5xl mx-auto bg-[#1a2e1a] rounded-[2rem] overflow-hidden relative shadow-2xl border border-[#d4af37]/20 p-12 md:p-24 text-center">
-          <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/dark-leather.png')] opacity-10 pointer-events-none" />
+          <div className="absolute top-0 left-0 w-full h-full bg-[url('/dryfruits-dry-fruits-01.webp')] bg-cover bg-center opacity-10 pointer-events-none" />
           <div className="relative z-10 space-y-12">
             <div className="space-y-4">
               <span className="inline-block p-4 bg-[#d4af37] text-emerald-950 rounded-full mb-6">

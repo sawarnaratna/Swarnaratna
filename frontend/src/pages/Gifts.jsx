@@ -12,7 +12,7 @@ const preMadeHampers = [
     name: 'The Royal Collection',
     description: 'A grand assortment of our finest jumbo cashews, organic almonds, and saffron-infused pistachios in a handcrafted wooden box.',
     price: 2499,
-    image: 'https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?w=600',
+    image: '/dryfruits-dry-fruits-01.webp',
     category: 'hampers',
     items: ['Jumbo Cashews', 'Organic Almonds', 'Iranian Pistachios'],
     rating: 5,
@@ -23,7 +23,7 @@ const preMadeHampers = [
     name: 'Wellness Treasure',
     description: 'The perfect gift for the health-conscious. Includes organic walnuts, goji berries, and premium flax seeds.',
     price: 1850,
-    image: 'https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=600',
+    image: '/hazelnut.webp',
     category: 'hampers',
     items: ['Walnuts', 'Dates', 'Almonds'],
     rating: 4.8,
@@ -34,7 +34,7 @@ const preMadeHampers = [
     name: 'Silk Route Delights',
     description: 'Explore the flavors of the ancient Silk Route with exotic dates, dried figs, and roasted apricots.',
     price: 1599,
-    image: 'https://images.unsplash.com/photo-1564729694921-2e9a7b79c9a5?w=600',
+    image: '/Apricots.webp',
     category: 'hampers',
     items: ['Medjool Dates', 'Figs', 'Apricots'],
     rating: 4.9,
@@ -104,7 +104,7 @@ const Gifts = () => {
       _id: `custom-hamper-${Date.now()}`,
       name: 'Bespoke Gift Hamper',
       price: totalPrice,
-      image: 'https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?w=200',
+      image: '/dryfruits-dry-fruits-01.webp',
       description: `Custom hamper containing: ${customItems.map(i => `${i.name} x${i.quantity}`).join(', ')}`,
       weight: 'Custom',
       isCustom: true
@@ -181,7 +181,7 @@ const Gifts = () => {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
                   {preMadeHampers.map((hamper) => (
-                    <div key={hamper.id} className="group">
+                    <div key={hamper._id} className="group">
                       <div className="aspect-[4/5] bg-stone-50 overflow-hidden relative mb-8">
                         <img 
                           src={hamper.image} 

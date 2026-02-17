@@ -1,86 +1,103 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Star, ShoppingCart, Eye } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
+import QuickView from './QuickView';
 
 const ProductCard = ({ product }) => {
-  const { addToCart } = useCart();
+  const { addToCart, setIsCartOpen } = useCart();
+  const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
 
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
     addToCart(product);
+    setIsCartOpen(true);
   };
 
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      className="bg-white group overflow-hidden flex flex-col"
-    >
-      <Link to={`/product/${product._id || product.id}`} className="relative block overflow-hidden aspect-[3/4]">
-        <motion.img
-          whileHover={{ scale: 1.08 }}
-          transition={{ duration: 0.9, ease: [0.33, 1, 0.68, 1] }}
-          src={product.image}
-          alt={product.name}
-          className="w-full h-full object-cover"
-        />
-        
-        {/* Minimalist Quick Add - Visible on hover for desktop, persistent for mobile touch */}
-        <div className="absolute inset-0 bg-black/5 opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center p-4 sm:p-6">
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={handleAddToCart}
-            className="w-full bg-emerald-950 text-[#d4af37] py-4 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] transform translate-y-4 lg:group-hover:translate-y-0 transition-transform duration-500 shadow-2xl border border-[#d4af37]/20"
-          >
-            Add to Selection
-          </motion.button>
-        </div>
-
-        {/* Mobile-only visible Add to Cart icon */}
-        <button 
-          onClick={handleAddToCart}
-          className="lg:hidden absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg border border-stone-100 text-emerald-950 active:scale-90 transition-transform"
-        >
-          <ShoppingCart className="w-4 h-4" />
-        </button>
-
-        {product.originalPrice > product.price && (
-          <div className="absolute top-4 left-4 bg-emerald-900 text-white px-3 py-1 text-[9px] font-black uppercase tracking-tighter">
-            -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+    <>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        className="bg-white group overflow-hidden flex flex-col relative"
+      >
+        <Link to={`/product/${product._id || product.id}`} className="relative block overflow-hidden aspect-[3/4]">
+          <motion.img
+            whileHover={{ scale: 1.08 }}
+            transition={{ duration: 0.9, ease: [0.33, 1, 0.68, 1] }}
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
+          
+          {/* Quick View Trigger - NEW */}
+          <div className="absolute inset-0 bg-warm-brown/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center p-6 space-x-4">
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsQuickViewOpen(true);
+              }}
+              className="bg-white text-warm-brown p-4 rounded-full shadow-2xl hover:bg-harvest-gold hover:text-white transition-colors"
+              title="Quick View"
+            >
+              <Eye className="w-5 h-5" />
+            </motion.button>
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={handleAddToCart}
+              className="bg-harvest-gold text-white p-4 rounded-full shadow-2xl hover:bg-white hover:text-warm-brown transition-colors"
+              title="Add to Selection"
+            >
+              <ShoppingCart className="w-5 h-5" />
+            </motion.button>
           </div>
-        )}
-      </Link>
 
-      <div className="py-6 px-2 flex flex-col items-center text-center">
-        <h3 className="text-[11px] font-black text-stone-900 uppercase tracking-[0.15em] mb-2 leading-relaxed h-8 line-clamp-2">
-          {product.name}
-        </h3>
-
-        <div className="flex items-center justify-center mb-3 space-x-1">
-          {[...Array(5)].map((_, i) => (
-            <div 
-              key={i} 
-              className={`w-1 h-1 rounded-full ${i < Math.floor(product.rating) ? 'bg-[#d4af37]' : 'bg-stone-200'}`} 
-            />
-          ))}
-        </div>
-
-        <div className="flex items-baseline space-x-2">
-          <span className="text-sm font-black text-emerald-900 tracking-tight">
-            ₹{product.price}
-          </span>
           {product.originalPrice > product.price && (
-            <span className="text-[10px] text-stone-400 line-through tracking-tight">
-              ₹{product.originalPrice}
-            </span>
+            <div className="absolute top-4 left-4 bg-warm-brown text-harvest-gold px-3 py-1 text-[9px] font-black uppercase tracking-tighter border border-harvest-gold/30">
+              -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+            </div>
           )}
+        </Link>
+
+        <div className="py-8 px-4 flex flex-col items-center text-center">
+          <h3 className="text-[11px] font-black text-warm-brown uppercase tracking-[0.2em] mb-3 leading-relaxed h-10 line-clamp-2 italic">
+            {product.name}
+          </h3>
+
+          <div className="flex items-center justify-center mb-4 space-x-1">
+            {[...Array(5)].map((_, i) => (
+              <div 
+                key={i} 
+                className={`w-1 h-1 rounded-full ${i < Math.floor(product.rating) ? 'bg-harvest-gold' : 'bg-stone-200'}`} 
+              />
+            ))}
+          </div>
+
+          <div className="flex items-baseline space-x-3">
+            <span className="text-base font-black text-warm-brown tracking-tighter italic">
+              ₹{product.price}
+            </span>
+            {product.originalPrice > product.price && (
+              <span className="text-[11px] text-stone-300 line-through tracking-tighter font-light">
+                ₹{product.originalPrice}
+              </span>
+            )}
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+
+      <QuickView 
+        product={product} 
+        isOpen={isQuickViewOpen} 
+        onClose={() => setIsQuickViewOpen(false)} 
+      />
+    </>
   );
 };
 

@@ -80,8 +80,8 @@ const ProductDetails = () => {
   // Mock additional images
   const productImages = [
     product.image,
-    "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=800",
-    "https://images.unsplash.com/photo-1564729694921-2e9a7b79c9a5?w=800"
+    "/dryfruits-dry-fruits-01.webp",
+    "/hazelnut.webp"
   ];
 
   return (

@@ -25,7 +25,7 @@ const About = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
             <div className="relative">
               <img 
-                src="https://images.unsplash.com/photo-1596503182110-975e71448e23?w=800" 
+                src="https://images.unsplash.com/photo-1590779033100-9f60705a2f3b?w=800" 
                 alt="Our Heritage" 
                 className="w-full aspect-[4/5] object-cover"
               />

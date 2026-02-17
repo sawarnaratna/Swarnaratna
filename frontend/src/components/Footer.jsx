@@ -11,9 +11,9 @@ const Footer = () => {
           <div className="space-y-8">
             <Link to="/" className="inline-block transition-transform duration-300 hover:scale-105">
               <img 
-                src="/Swarnaratna_Logo.jpeg" 
+                src="/Swarnaratna_Logo.png" 
                 alt="Swarnaratna Logo" 
-                className="h-24 w-auto object-contain bg-white p-3 shadow-2xl brightness-110 contrast-105"
+                className="h-28 w-auto object-contain"
               />
             </Link>
             <p className="text-stone-400 text-[13px] leading-relaxed font-light italic">
@@ -30,9 +30,9 @@ const Footer = () => {
 
           {/* Shop Categories */}
           <div>
-            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] mb-10 text-[#d4af37]">Collections</h3>
+            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] mb-10 text-harvest-gold">Collections</h3>
             <ul className="space-y-4">
-              {['Exotic Nuts', 'Premium Dates', 'Dry Berries', 'Luxury Gifting'].map((item) => (
+              {['Exotic Nuts', 'Premium Dates', 'Dry Berries', 'Gift Hampers', 'Bulk Orders'].map((item) => (
                 <li key={item}>
                   <Link to="/products" className="text-stone-400 text-[12px] uppercase tracking-widest hover:text-white transition-colors">
                     {item}
@@ -44,9 +44,9 @@ const Footer = () => {
 
           {/* Company */}
           <div>
-            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] mb-10 text-[#d4af37]">Information</h3>
+            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] mb-10 text-harvest-gold">Information</h3>
             <ul className="space-y-4">
-              {['Our Heritage', 'Sourcing Ethics', 'Private Concierge', 'Shipping & Returns'].map((item) => (
+              {['Our Heritage', 'Monthly Subscription', 'Private Concierge', 'Track Reservation'].map((item) => (
                 <li key={item}>
                   <Link to="/about" className="text-stone-400 text-[12px] uppercase tracking-widest hover:text-white transition-colors">
                     {item}

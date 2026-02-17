@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import axios from 'axios';
 import Layout from '../components/Layout';
 import ProductCard from '../components/ProductCard';
+import ProductSkeleton from '../components/ProductSkeleton';
 import { Filter, Search, Loader2 } from 'lucide-react';
 
 const Products = () => {
@@ -87,8 +88,10 @@ const Products = () => {
         </div>
 
         {loading ? (
-          <div className="flex justify-center items-center py-48">
-            <Loader2 className="w-16 h-12 text-emerald-900 animate-spin" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12 py-12">
+            {[...Array(8)].map((_, i) => (
+              <ProductSkeleton key={i} />
+            ))}
           </div>
         ) : error ? (
           <div className="text-center py-48">
@@ -104,10 +107,10 @@ const Products = () => {
                   <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-stone-400 w-5 h-5" />
                   <input
                     type="text"
-                    placeholder="Search for Dry Fruits, Nuts..."
+                    placeholder="Search our heritage collection..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-12 pr-4 py-4 bg-stone-50 border border-stone-100 rounded-none focus:bg-white focus:ring-0 focus:border-emerald-900 transition-all font-light tracking-wide outline-none"
+                    className="w-full pl-12 pr-4 py-4 bg-stone-50 border border-stone-100 rounded-none focus:bg-white focus:ring-0 focus:border-warm-brown transition-all font-light tracking-wide outline-none italic"
                   />
                 </div>
 
@@ -116,7 +119,7 @@ const Products = () => {
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="w-full px-4 py-4 bg-stone-50 border border-stone-100 rounded-none focus:bg-white focus:ring-0 focus:border-emerald-900 transition-all font-black text-[10px] uppercase tracking-widest outline-none"
+                    className="w-full px-4 py-4 bg-stone-50 border border-stone-100 rounded-none focus:bg-white focus:ring-0 focus:border-warm-brown transition-all font-black text-[10px] uppercase tracking-widest outline-none"
                   >
                     <option value="name">Sort by Name</option>
                     <option value="price-low">Price: Low to High</option>
@@ -142,13 +145,13 @@ const Products = () => {
                     <button
                       key={category.id}
                       onClick={() => setSelectedCategory(category.id)}
-                      className={`px-6 py-2 border transition-all duration-300 text-[10px] font-black uppercase tracking-widest ${
+                      className={`px-8 py-3 border transition-all duration-500 text-[10px] font-black uppercase tracking-[0.2em] ${
                         selectedCategory === category.id
-                          ? 'bg-emerald-900 border-emerald-900 text-white'
-                          : 'bg-white border-stone-200 text-stone-600 hover:border-emerald-900 hover:text-emerald-900'
+                          ? 'bg-warm-brown border-warm-brown text-white'
+                          : 'bg-white border-stone-200 text-stone-600 hover:border-warm-brown hover:text-warm-brown shadow-sm'
                       }`}
                     >
-                      {category.name} ({category.count})
+                      {category.name} <span className="ml-2 text-stone-300">({category.count})</span>
                     </button>
                   ))}
                 </div>

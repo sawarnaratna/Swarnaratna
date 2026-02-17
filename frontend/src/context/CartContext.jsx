@@ -119,6 +119,8 @@ export const CartProvider = ({ children }) => {
   const totalItems = state.items.reduce((total, item) => total + item.quantity, 0);
   const totalPrice = state.items.reduce((total, item) => total + (item.price * item.quantity), 0);
 
+  const [isCartOpen, setIsCartOpen] = React.useState(false);
+
   const value = {
     items: state.items,
     totalItems,
@@ -126,7 +128,9 @@ export const CartProvider = ({ children }) => {
     addToCart,
     removeFromCart,
     updateQuantity,
-    clearCart
+    clearCart,
+    isCartOpen,
+    setIsCartOpen
   };
 
   return (

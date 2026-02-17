@@ -4,12 +4,13 @@ import { ShoppingCart, Menu, X, User, LogOut, LogIn, Search, Heart, Sparkles } f
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import CartDrawer from './CartDrawer';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { totalItems } = useCart();
+  const { totalItems, setIsCartOpen } = useCart();
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -59,9 +60,9 @@ const Header = () => {
                 className="relative"
               >
                 <img 
-                  src="/Swarnaratna_Logo.jpeg" 
+                  src="/Swarnaratna_Logo.png" 
                   alt="Swarnaratna Logo" 
-                  className="h-16 sm:h-20 w-auto object-contain transition-all duration-500 group-hover:brightness-110"
+                  className="h-16 sm:h-24 w-auto object-contain transition-all duration-500 group-hover:scale-105"
                 />
               </motion.div>
             </Link>
@@ -119,8 +120,8 @@ const Header = () => {
               </div>
 
               {/* Cart */}
-              <Link
-                to="/cart"
+              <button
+                onClick={() => setIsCartOpen(true)}
                 className="relative p-3 bg-emerald-950 text-[#d4af37] rounded-full transition-all duration-500 hover:scale-110 shadow-lg group"
               >
                 <ShoppingCart className="w-4 h-4" />
@@ -129,7 +130,7 @@ const Header = () => {
                     {totalItems}
                   </span>
                 )}
-              </Link>
+              </button>
 
               {/* Mobile menu button */}
               <button
@@ -195,7 +196,7 @@ const Header = () => {
                 className="fixed right-0 top-0 bottom-0 w-[85%] max-w-sm bg-[#1a2e1a] z-[120] lg:hidden p-10 shadow-2xl flex flex-col"
               >
                 <div className="flex justify-between items-center mb-20">
-                  <img src="/Swarnaratna_Logo.jpeg" className="h-16 w-auto brightness-200" alt="Logo" />
+                  <img src="/Swarnaratna_Logo.png" className="h-20 w-auto" alt="Logo" />
                   <button 
                     onClick={() => setIsMenuOpen(false)}
                     className="p-3 text-[#d4af37] border border-[#d4af37]/20 rounded-full hover:rotate-90 transition-transform duration-500"
@@ -251,6 +252,9 @@ const Header = () => {
         </AnimatePresence>
       </header>
       <div className={`h-24 sm:h-28 transition-all ${isScrolled ? 'h-20' : ''}`} />
+      
+      {/* Global Components */}
+      <CartDrawer />
     </div>
   );
 };

@@ -7,11 +7,11 @@ import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 const slides = [
   {
     id: 1,
-    title: "The Art of Pure Gifting",
-    subtitle: "PREMIUM DRY FRUIT COLLECTIONS",
+    title: "100% Natural & Fresh Dry Fruits",
+    subtitle: "THE ESSENCE OF PURITY",
     description: "Hand-selected from the finest orchards across the globe, our premium nuts and dates redefine quality.",
-    image: "https://images.unsplash.com/photo-1596560548464-f010549b84d7?auto=format&fit=crop&q=80&w=2000",
-    cta: "Explore Collection",
+    image: "/almond.webp",
+    cta: "Shop Now",
     link: "/products"
   },
   {
@@ -19,16 +19,16 @@ const slides = [
     title: "Nature's Finest Jewels",
     subtitle: "ORGANIC & SUSTAINABLE",
     description: "Experience the richness of authentic flavors with our ethically sourced, chemical-free selection.",
-    image: "https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?auto=format&fit=crop&q=80&w=2000",
-    cta: "Shop Organic",
+    image: "/Pistachio.webp",
+    cta: "Explore Collection",
     link: "/products"
   },
   {
     id: 3,
-    title: "Crafted for Connoisseurs",
-    subtitle: "LIMITED EDITION HARVEST",
+    title: "The Art of Pure Gifting",
+    subtitle: "LIMITED EDITION HAMPER COLLECTION",
     description: "Discover rare varieties of jumbo cashews and saffron-infused almonds for the ultimate indulgence.",
-    image: "https://images.unsplash.com/photo-1536620948425-17584113222d?auto=format&fit=crop&q=80&w=2000",
+    image: "/cashew.webp",
     cta: "Discover More",
     link: "/products"
   }
@@ -45,7 +45,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className="relative h-[70vh] md:h-[90vh] w-full overflow-hidden bg-stone-900">
+    <div className="relative h-[75vh] md:h-[95vh] w-full overflow-hidden bg-warm-brown texture-wood">
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
@@ -56,12 +56,13 @@ const Hero = () => {
           className="absolute inset-0"
         >
           {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-warm-brown/80 via-warm-brown/40 to-transparent z-10" />
           
           <img
             src={slides[current].image}
             alt={slides[current].title}
             className="h-full w-full object-cover"
+            loading="eager"
           />
 
           <div className="absolute inset-0 z-20 flex items-center">
@@ -71,7 +72,7 @@ const Hero = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3, duration: 0.8 }}
-                  className="text-[#d4af37] text-[10px] md:text-xs font-black tracking-[0.4em] uppercase mb-4"
+                  className="text-harvest-gold text-[10px] md:text-xs font-black tracking-[0.4em] uppercase mb-4"
                 >
                   {slides[current].subtitle}
                 </motion.p>
@@ -79,7 +80,7 @@ const Hero = () => {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5, duration: 0.8 }}
-                  className="text-white text-4xl md:text-7xl font-black mb-6 leading-[1.1] tracking-tight"
+                  className="text-white text-4xl md:text-7xl font-black mb-6 leading-[1.1] tracking-tight font-serif italic"
                 >
                   {slides[current].title}
                 </motion.h1>
@@ -87,7 +88,7 @@ const Hero = () => {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7, duration: 0.8 }}
-                  className="text-stone-300 text-sm md:text-lg mb-10 leading-relaxed font-light max-w-lg"
+                  className="text-stone-300 text-sm md:text-lg mb-10 leading-relaxed font-light max-w-lg italic"
                 >
                   {slides[current].description}
                 </motion.p>
@@ -98,7 +99,7 @@ const Hero = () => {
                 >
                   <Link
                     to={slides[current].link}
-                    className="inline-flex items-center px-10 py-4 bg-emerald-800 hover:bg-emerald-700 text-white text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-300 group"
+                    className="inline-flex items-center px-12 py-5 bg-harvest-gold text-warm-brown text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-300 group shadow-2xl hover:bg-white"
                   >
                     {slides[current].cta}
                     <ArrowRight className="ml-3 w-4 h-4 transition-transform group-hover:translate-x-2" />

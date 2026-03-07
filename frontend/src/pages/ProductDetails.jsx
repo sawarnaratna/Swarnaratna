@@ -21,11 +21,11 @@ const ProductDetails = () => {
     const fetchProductAndRelated = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
+        const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/${id}`);
         setProduct(data);
         
         // Fetch all products to filter related ones
-        const { data: allProducts } = await axios.get('http://localhost:5000/api/products');
+        const { data: allProducts } = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
         const related = allProducts
           .filter(p => p.category === data.category && p._id !== data._id)
           .slice(0, 4);

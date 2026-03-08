@@ -36,7 +36,7 @@ const Home = () => {
     fetchProducts();
   }, []);
 
-  const bestSellers = products.slice(0, 8);
+  const bestSellers = Array.isArray(products) ? products.slice(0, 8) : [];
   
   const categories = [
     { name: 'Exotic Nuts', img: '/almond.webp', color: 'bg-emerald-50' },
@@ -216,7 +216,7 @@ const Home = () => {
             </div>
           ) : (
             <Carousel>
-              {bestSellers.map((product) => (
+              {bestSellers?.map((product) => (
                 <ProductCard key={product._id} product={product} />
               ))}
             </Carousel>

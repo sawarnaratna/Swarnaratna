@@ -18,7 +18,7 @@ const Products = () => {
     const fetchProducts = async () => {
       try {
         const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
-        setProducts(data);
+        setProducts(data.products);
         setLoading(false);
       } catch (err) {
         setError('Failed to load products');
@@ -35,7 +35,7 @@ const Products = () => {
     }, {});
 
     return [
-      { id: 'all', name: 'All Products', count: products.length },
+      { id: 'all', name: 'All Products', count: products.length},
       { id: 'nuts', name: 'Nuts', count: counts['nuts'] || 0 },
       { id: 'dates', name: 'Dates', count: counts['dates'] || 0 },
     ];

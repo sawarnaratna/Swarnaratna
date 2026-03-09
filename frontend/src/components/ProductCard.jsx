@@ -18,25 +18,25 @@ const ProductCard = ({ product }) => {
 
   return (
     <>
-      <motion.div 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
         viewport={{ once: true }}
         id={`product-${product._id || product.id}`}
-        className="bg-white group overflow-hidden flex flex-col relative"
+        className="bg-white group overflow-hidden flex flex-col relative rounded-2xl border border-stone-100 shadow-sm hover:shadow-xl transition-all duration-500"
       >
-        <Link to={`/product/${product._id || product.id}`} className="relative block overflow-hidden aspect-[3/4]">
+        <Link to={`/product/${product._id || product.id}`} className="relative block overflow-hidden aspect-[4/5]">
           <motion.img
             whileHover={{ scale: 1.08 }}
-            transition={{ duration: 0.9, ease: [0.33, 1, 0.68, 1] }}
+            transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
             src={product.image}
             alt={product.name}
             className="w-full h-full object-cover"
             loading="lazy"
           />
-          
-          {/* Quick View Trigger - NEW */}
-          <div className="absolute inset-0 bg-warm-brown/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center p-6 space-x-4">
+
+          <div className="absolute inset-0 bg-gradient-to-t from-[#112114]/50 via-[#112114]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center p-6 space-x-4">
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={(e) => {
@@ -60,44 +60,36 @@ const ProductCard = ({ product }) => {
           </div>
 
           {product.originalPrice > product.price && (
-            <div className="absolute top-4 left-4 bg-warm-brown text-harvest-gold px-3 py-1 text-[9px] font-black uppercase tracking-tighter border border-harvest-gold/30">
+            <div className="absolute top-4 left-4 bg-[#112114] text-[#d4af37] px-3 py-1 text-[9px] font-black uppercase tracking-tighter border border-[#d4af37]/30 rounded-full">
               -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
             </div>
           )}
         </Link>
 
-        <div className="py-8 px-4 flex flex-col items-center text-center">
-          <h3 className="text-[11px] font-black text-warm-brown uppercase tracking-[0.2em] mb-3 leading-relaxed h-10 line-clamp-2 italic">
+        <div className="py-6 px-4 flex flex-col items-center text-center">
+          <h3 className="text-[11px] font-black text-warm-brown uppercase tracking-[0.18em] mb-3 leading-relaxed h-10 line-clamp-2">
             {product.name}
           </h3>
 
-          <div className="flex items-center justify-center mb-4 space-x-1">
+          <div className="flex items-center justify-center mb-4 space-x-1.5">
             {[...Array(5)].map((_, i) => (
-              <div 
-                key={i} 
-                className={`w-1 h-1 rounded-full ${i < Math.floor(product.rating) ? 'bg-harvest-gold' : 'bg-stone-200'}`} 
+              <Star
+                key={i}
+                className={`w-3 h-3 ${i < Math.floor(product.rating) ? 'text-[#d4af37] fill-[#d4af37]' : 'text-stone-200'}`}
               />
             ))}
           </div>
 
           <div className="flex items-baseline space-x-3">
-            <span className="text-base font-black text-warm-brown tracking-tighter italic">
-              ₹{product.price}
-            </span>
+            <span className="text-lg font-black text-[#112114] tracking-tight">Rs. {product.price}</span>
             {product.originalPrice > product.price && (
-              <span className="text-[11px] text-stone-300 line-through tracking-tighter font-light">
-                ₹{product.originalPrice}
-              </span>
+              <span className="text-[12px] text-stone-400 line-through tracking-tight font-medium">Rs. {product.originalPrice}</span>
             )}
           </div>
         </div>
       </motion.div>
 
-      <QuickView 
-        product={product} 
-        isOpen={isQuickViewOpen} 
-        onClose={() => setIsQuickViewOpen(false)} 
-      />
+      <QuickView product={product} isOpen={isQuickViewOpen} onClose={() => setIsQuickViewOpen(false)} />
     </>
   );
 };

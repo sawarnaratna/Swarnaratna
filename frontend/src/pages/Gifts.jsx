@@ -1,10 +1,19 @@
-import React, { useState, useMemo, useEffect } from 'react';
+﻿import React, { useState, useMemo, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gift, Plus, Minus, Trash2, ArrowRight, Check, Package, Sparkles, Loader2 } from 'lucide-react';
+import { Gift, Plus, Minus, Package, Sparkles, Loader2 } from 'lucide-react';
 import axios from 'axios';
 import { useCart } from '../context/CartContext';
-import ProductCard from '../components/ProductCard';
+const legacyToPublicImageMap = {
+  '/almond.webp': '/dry-fruits-gift-jar-trio.png',
+  '/cashew.webp': '/dry-fruits-ivory-three-compartment-box.png',
+  '/Pistachio.webp': '/dry-fruits-black-display-assorted-nuts.png',
+  '/dates.webp': '/dry-fruits-wooden-gourmet-maroon-ribbon-box.png',
+  '/walnut.webp': '/dry-fruits-charcoal-jar-gift-box.png',
+  '/Apricots.webp': '/dry-fruits-festive-basket-in-hands.png',
+  '/figs.webp': '/dry-fruits-wooden-chest-almond-dates-figs.png',
+  '/hazelnut.webp': '/dry-fruits-ivory-family-12-compartment-box.png',
+};
 
 const preMadeHampers = [
   {
@@ -12,7 +21,7 @@ const preMadeHampers = [
     name: 'The Royal Collection',
     description: 'A grand assortment of our finest jumbo cashews, organic almonds, and saffron-infused pistachios in a handcrafted wooden box.',
     price: 2499,
-    image: '/dryfruits-dry-fruits-01.webp',
+    image: '/dry-fruits-blue-gold-ribbon-box.png',
     category: 'hampers',
     items: ['Jumbo Cashews', 'Organic Almonds', 'Iranian Pistachios'],
     rating: 5,
@@ -23,7 +32,7 @@ const preMadeHampers = [
     name: 'Wellness Treasure',
     description: 'The perfect gift for the health-conscious. Includes organic walnuts, goji berries, and premium flax seeds.',
     price: 1850,
-    image: '/hazelnut.webp',
+    image: '/dry-fruits-ivory-family-12-compartment-box.png',
     category: 'hampers',
     items: ['Walnuts', 'Dates', 'Almonds'],
     rating: 4.8,
@@ -34,7 +43,7 @@ const preMadeHampers = [
     name: 'Silk Route Delights',
     description: 'Explore the flavors of the ancient Silk Route with exotic dates, dried figs, and roasted apricots.',
     price: 1599,
-    image: '/Apricots.webp',
+    image: '/dry-fruits-festive-basket-in-hands.png',
     category: 'hampers',
     items: ['Medjool Dates', 'Figs', 'Apricots'],
     rating: 4.9,
@@ -52,7 +61,7 @@ const Gifts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
+        const { data } = await axios.get('http://localhost:5000/api/products');
         setProducts(data);
         setLoading(false);
       } catch (err) {
@@ -104,7 +113,7 @@ const Gifts = () => {
       _id: `custom-hamper-${Date.now()}`,
       name: 'Bespoke Gift Hamper',
       price: totalPrice,
-      image: '/dryfruits-dry-fruits-01.webp',
+      image: '/dry-fruits-blue-gold-ribbon-box.png',
       description: `Custom hamper containing: ${customItems.map(i => `${i.name} x${i.quantity}`).join(', ')}`,
       weight: 'Custom',
       isCustom: true
@@ -200,7 +209,7 @@ const Gifts = () => {
                       <div className="text-center space-y-4 px-4">
                         <h4 className="text-xl font-black text-stone-900 uppercase tracking-tight">{hamper.name}</h4>
                         <p className="text-stone-400 text-sm font-light leading-relaxed line-clamp-2 italic">{hamper.description}</p>
-                        <p className="text-2xl font-black text-emerald-900">₹{hamper.price}</p>
+                        <p className="text-2xl font-black text-emerald-900">Rs. {hamper.price}</p>
                         <div className="pt-4 border-t border-stone-50">
                           <ul className="flex flex-wrap justify-center gap-2">
                             {hamper.items.map((item, idx) => (
@@ -238,11 +247,11 @@ const Gifts = () => {
                       </div>
                     ) : (
                       products.map((product) => (
-                        <div key={product._id || product.id} className="flex items-center space-x-6 p-6 border border-stone-100 bg-stone-50/30 hover:bg-stone-50 transition-colors">
-                          <img src={product.image} className="w-16 h-20 object-cover" alt="" />
+                        <div key={product._id || product.id} className="flex items-center space-x-6 p-6 border border-stone-100 bg-stone-50/30 hover:bg-stone-50 transition-colors rounded-2xl">
+                          <img src={legacyToPublicImageMap[product.image] || product.image} className="w-16 h-20 object-cover rounded-lg" alt={product.name} />
                           <div className="flex-1">
                             <h4 className="text-[11px] font-black text-stone-900 uppercase tracking-widest">{product.name}</h4>
-                            <p className="text-emerald-900 font-black text-sm mt-1">₹{product.price}</p>
+                            <p className="text-emerald-900 font-black text-sm mt-1">Rs. {product.price}</p>
                           </div>
                           <button 
                             onClick={() => handleAddCustomItem(product)}
@@ -276,7 +285,7 @@ const Gifts = () => {
                             <li key={item._id || item.id} className="flex items-center justify-between border-b border-white/5 pb-6">
                               <div className="flex-1">
                                 <h4 className="text-[12px] font-black uppercase tracking-widest">{item.name}</h4>
-                                <p className="text-[#d4af37] text-[10px] font-bold mt-1">₹{item.price * item.quantity}</p>
+                                <p className="text-[#d4af37] text-[10px] font-bold mt-1">Rs. {item.price * item.quantity}</p>
                               </div>
                               <div className="flex items-center space-x-4">
                                 <button onClick={() => handleUpdateQuantity(item._id || item.id, -1)} className="p-1 text-white/40 hover:text-white transition-colors"><Minus className="w-4 h-4" /></button>
@@ -292,11 +301,11 @@ const Gifts = () => {
                     <div className="mt-12 pt-10 border-t border-white/10">
                       <div className="flex justify-between text-[11px] font-bold uppercase tracking-widest mb-4">
                         <span className="text-white/40">Premium Packaging</span>
-                        <span>₹250</span>
+                        <span>Rs. 250</span>
                       </div>
                       <div className="flex justify-between items-end">
                         <span className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em]">Total Estimate</span>
-                        <span className="text-5xl font-black text-[#d4af37] tracking-tighter italic">₹{totalPrice}</span>
+                        <span className="text-5xl font-black text-[#d4af37] tracking-tighter italic">Rs. {totalPrice}</span>
                       </div>
 
                       <button 
@@ -319,3 +328,4 @@ const Gifts = () => {
 };
 
 export default Gifts;
+

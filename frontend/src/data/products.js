@@ -1,4 +1,4 @@
-export const products = [
+﻿export const products = [
   {
     id: 1,
     name: "Premium Almonds",
@@ -6,7 +6,7 @@ export const products = [
     price: 450,
     originalPrice: 500,
     weight: "500g",
-    image: "/almond.webp",
+    image: "/dry-fruits-gift-jar-trio.png",
     category: "nuts",
     rating: 4.8,
     reviews: 124,
@@ -26,7 +26,7 @@ export const products = [
     price: 520,
     originalPrice: 600,
     weight: "500g",
-    image: "/cashew.webp",
+    image: "/dry-fruits-ivory-three-compartment-box.png",
     category: "nuts",
     rating: 4.9,
     reviews: 89,
@@ -46,7 +46,7 @@ export const products = [
     price: 680,
     originalPrice: 750,
     weight: "500g",
-    image: "/Pistachio.webp",
+    image: "/dry-fruits-black-display-assorted-nuts.png",
     category: "nuts",
     rating: 4.7,
     reviews: 156,
@@ -66,7 +66,7 @@ export const products = [
     price: 380,
     originalPrice: 420,
     weight: "500g",
-    image: "/dates.webp",
+    image: "/dry-fruits-wooden-gourmet-maroon-ribbon-box.png",
     category: "dates",
     rating: 4.6,
     reviews: 98,
@@ -86,7 +86,7 @@ export const products = [
     price: 750,
     originalPrice: 850,
     weight: "500g",
-    image: "/walnut.webp",
+    image: "/dry-fruits-charcoal-jar-gift-box.png",
     category: "nuts",
     rating: 4.8,
     reviews: 112,
@@ -106,7 +106,7 @@ export const products = [
     price: 420,
     originalPrice: 480,
     weight: "500g",
-    image: "/Apricots.webp",
+    image: "/dry-fruits-festive-basket-in-hands.png",
     category: "dried-fruits",
     rating: 4.7,
     reviews: 76,
@@ -126,7 +126,7 @@ export const products = [
     price: 580,
     originalPrice: 650,
     weight: "500g",
-    image: "/figs.webp",
+    image: "/dry-fruits-wooden-chest-almond-dates-figs.png",
     category: "dried-fruits",
     rating: 4.5,
     reviews: 64,
@@ -146,7 +146,7 @@ export const products = [
     price: 820,
     originalPrice: 900,
     weight: "500g",
-    image: "/hazelnut.webp",
+    image: "/dry-fruits-ivory-family-12-compartment-box.png",
     category: "nuts",
     rating: 4.6,
     reviews: 52,
@@ -194,3 +194,5 @@ export const reviews = [
     date: "2024-01-12"
   }
 ];
+
+

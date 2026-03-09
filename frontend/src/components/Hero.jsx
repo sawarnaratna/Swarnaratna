@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -10,7 +10,7 @@ const slides = [
     title: "100% Natural & Fresh Dry Fruits",
     subtitle: "THE ESSENCE OF PURITY",
     description: "Hand-selected from the finest orchards across the globe, our premium nuts and dates redefine quality.",
-    image: "/almond.webp",
+    image: "/dry-fruits-gift-jar-trio.png",
     cta: "Shop Now",
     link: "/products"
   },
@@ -19,7 +19,7 @@ const slides = [
     title: "Nature's Finest Jewels",
     subtitle: "ORGANIC & SUSTAINABLE",
     description: "Experience the richness of authentic flavors with our ethically sourced, chemical-free selection.",
-    image: "/Pistachio.webp",
+    image: "/dry-fruits-black-display-assorted-nuts.png",
     cta: "Explore Collection",
     link: "/products"
   },
@@ -28,7 +28,7 @@ const slides = [
     title: "The Art of Pure Gifting",
     subtitle: "LIMITED EDITION HAMPER COLLECTION",
     description: "Discover rare varieties of jumbo cashews and saffron-infused almonds for the ultimate indulgence.",
-    image: "/cashew.webp",
+    image: "/dry-fruits-ivory-three-compartment-box.png",
     cta: "Discover More",
     link: "/products"
   }
@@ -144,3 +144,4 @@ const Hero = () => {
 };
 
 export default Hero;
+

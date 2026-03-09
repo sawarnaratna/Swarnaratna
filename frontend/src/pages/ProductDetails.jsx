@@ -1,14 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Star, ShoppingCart, Minus, Plus, ArrowLeft, Heart, Share2, Loader2 } from 'lucide-react';
+﻿import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { Minus, Plus, Heart, Share2, Loader2 } from 'lucide-react';
 import axios from 'axios';
 import Layout from '../components/Layout';
 import { useCart } from '../context/CartContext';
 import ProductCard from '../components/ProductCard';
 
+const legacyToPublicImageMap = {
+  '/almond.webp': '/dry-fruits-gift-jar-trio.png',
+  '/cashew.webp': '/dry-fruits-ivory-three-compartment-box.png',
+  '/Pistachio.webp': '/dry-fruits-black-display-assorted-nuts.png',
+  '/dates.webp': '/dry-fruits-wooden-gourmet-maroon-ribbon-box.png',
+  '/walnut.webp': '/dry-fruits-charcoal-jar-gift-box.png',
+  '/Apricots.webp': '/dry-fruits-festive-basket-in-hands.png',
+  '/figs.webp': '/dry-fruits-wooden-chest-almond-dates-figs.png',
+  '/hazelnut.webp': '/dry-fruits-ivory-family-12-compartment-box.png',
+};
+
 const ProductDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -21,11 +31,11 @@ const ProductDetails = () => {
     const fetchProductAndRelated = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/${id}`);
+        const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
         setProduct(data);
         
         // Fetch all products to filter related ones
-        const { data: allProducts } = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
+        const { data: allProducts } = await axios.get('http://localhost:5000/api/products');
         const related = allProducts
           .filter(p => p.category === data.category && p._id !== data._id)
           .slice(0, 4);
@@ -79,9 +89,9 @@ const ProductDetails = () => {
 
   // Mock additional images
   const productImages = [
-    product.image,
-    "/dryfruits-dry-fruits-01.webp",
-    "/hazelnut.webp"
+    legacyToPublicImageMap[product.image] || product.image,
+    "/dry-fruits-blue-gold-ribbon-box.png",
+    "/dry-fruits-ivory-family-12-compartment-box.png"
   ];
 
   return (
@@ -132,7 +142,7 @@ const ProductDetails = () => {
             {/* Product Info - Editorial Style */}
             <div className="flex flex-col">
               <div className="border-b border-stone-100 pb-10 mb-10">
-                <p className="text-emerald-900 text-[10px] font-black tracking-[0.4em] uppercase mb-4">{product.category}</p>
+                <p className="text-emerald-900 text-[10px] font-black tracking-[0.4em] uppercase mb-4">{product.category || 'Premium Selection'}</p>
                 <h1 className="text-4xl md:text-6xl font-black text-stone-900 leading-tight tracking-tighter mb-6">{product.name}</h1>
                 
                 <div className="flex items-center mb-8 space-x-4">
@@ -141,20 +151,20 @@ const ProductDetails = () => {
                       <div key={i} className={`w-1.5 h-1.5 rounded-full ${i < Math.floor(product.rating) ? 'bg-[#d4af37]' : 'bg-stone-200'}`} />
                     ))}
                   </div>
-                  <span className="text-[10px] text-stone-400 font-bold uppercase tracking-widest">{product.reviews} Master Reviews</span>
+                  <span className="text-[10px] text-stone-400 font-bold uppercase tracking-widest">{product.reviews || 0} Master Reviews</span>
                 </div>
 
                 <div className="flex items-baseline space-x-4">
-                  <span className="text-4xl font-black text-emerald-900 tracking-tighter">₹{product.price}</span>
+                  <span className="text-4xl font-black text-emerald-900 tracking-tighter">Rs. {product.price}</span>
                   {product.originalPrice > product.price && (
-                    <span className="text-xl text-stone-300 line-through font-light">₹{product.originalPrice}</span>
+                    <span className="text-xl text-stone-300 line-through font-light">Rs. {product.originalPrice}</span>
                   )}
                 </div>
               </div>
 
               <div className="space-y-10">
                 <p className="text-stone-500 font-light leading-relaxed text-lg italic">
-                  {product.description}
+                  {product.description || 'Curated premium dry fruits selected for taste, freshness, and nutritional richness.'}
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-8 border-y border-stone-100">
@@ -174,7 +184,7 @@ const ProductDetails = () => {
                     <div className="space-y-4">
                       <div className="flex justify-between text-[12px] uppercase tracking-widest border-b border-stone-50 pb-2">
                         <span className="text-stone-400">Net Weight</span>
-                        <span className="text-stone-900 font-bold">{product.weight}</span>
+                        <span className="text-stone-900 font-bold">{product.weight || '250g'}</span>
                       </div>
                       <div className="flex justify-between text-[12px] uppercase tracking-widest border-b border-stone-50 pb-2">
                         <span className="text-stone-400">Availability</span>
@@ -279,3 +289,4 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
+

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import Layout from '../components/Layout';
 import { Target, Users, Leaf, ShieldCheck } from 'lucide-react';
 
@@ -25,7 +25,7 @@ const About = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
             <div className="relative">
               <img 
-                src="https://images.unsplash.com/photo-1590779033100-9f60705a2f3b?w=800" 
+                src="/dry-fruits-wooden-luxury-jar-display-box.png" 
                 alt="Our Heritage" 
                 className="w-full aspect-[4/5] object-cover"
               />
@@ -78,3 +78,5 @@ const About = () => {
 };
 
 export default About;
+
+

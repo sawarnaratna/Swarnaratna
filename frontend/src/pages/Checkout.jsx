@@ -73,7 +73,7 @@ const Checkout = () => {
         totalPrice: total,
       };
 
-      const { data } = await axios.post('http://localhost:5000/api/orders', orderData, config);
+      const { data } = await axios.post('https://swarnaratna.onrender.com/api/orders', orderData, config);
       
       setOrderId(data._id);
       setOrderComplete(true);

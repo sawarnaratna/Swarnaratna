@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Star, Shield, Truck, Award, ChevronRight, ArrowRight, 
-  ShoppingCart, CheckCircle, Package, Globe, Loader2, 
+  Star, Truck, Award, ArrowRight, 
+  CheckCircle, Package, Globe, 
   Quote, Heart, Sparkles, Gem, Leaf, Instagram 
 } from 'lucide-react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import axios from 'axios';
 import Layout from '../components/Layout';
 import ProductCard from '../components/ProductCard';
@@ -18,14 +18,10 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { scrollYProgress } = useScroll();
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
+        const { data } = await axios.get('http://localhost:5000/api/products');
         setProducts(data);
         setLoading(false);
       } catch (err) {
@@ -36,19 +32,19 @@ const Home = () => {
     fetchProducts();
   }, []);
 
-  const bestSellers = Array.isArray(products) ? products.slice(0, 8) : [];
+  const bestSellers = products.slice(0, 8);
   
   const categories = [
-    { name: 'Exotic Nuts', img: '/almond.webp', color: 'bg-emerald-50' },
-    { name: 'Premium Dates', img: '/dates.webp', color: 'bg-amber-50' },
-    { name: 'Dry Berries', img: '/Cranberries.webp', color: 'bg-stone-50' },
-    { name: 'Luxury Gifts', img: '/dryfruits-dry-fruits-01.webp', color: 'bg-emerald-50' },
+    { name: 'Exotic Nuts', category: 'nuts', img: '/dry-fruits-gift-jar-trio.png' },
+    { name: 'Premium Dates', category: 'dates', img: '/dry-fruits-wooden-gourmet-maroon-ribbon-box.png' },
+    { name: 'Dried Fruits', category: 'dried-fruits', img: '/dry-fruits-holi-special-hamper.png' },
+    { name: 'Luxury Gifts', href: '/gifts', img: '/dry-fruits-blue-gold-ribbon-box.png' },
   ];
 
   const processSteps = [
     { icon: Globe, title: "Global Sourcing", desc: "Hand-picked from the most fertile lands on Earth." },
     { icon: Gem, title: "Artisanal Sorting", desc: "Each kernel undergoes meticulous quality inspection." },
-    { icon: Sparkles, title: "Goverment Curing", desc: "Traditional methods to lock in natural oils and flavor." },
+    { icon: Sparkles, title: "Government Curing", desc: "Traditional methods to lock in natural oils and flavor." },
     { icon: Award, title: "Elegant Packaging", desc: "Sealed in oxygen-free environments for lasting freshness." }
   ];
 
@@ -135,7 +131,7 @@ const Home = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
             {categories.map((cat, i) => (
-              <Link key={i} to={`/products?category=${cat.name.toLowerCase()}`} className="group relative aspect-[4/5] overflow-hidden bg-white shadow-2xl">
+              <Link key={i} to={cat.href || `/products?category=${cat.category}`} className="group relative aspect-[4/5] overflow-hidden bg-white shadow-2xl">
                 <img 
                   src={cat.img} 
                   alt={cat.name} 
@@ -164,9 +160,9 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
-              { name: "The Royal Treasury", price: "₹2,499", img: "/figs.webp" },
-              { name: "Majestic Harvest", price: "₹4,999", img: "/walnut.webp" },
-              { name: "Imperial Gold", price: "₹8,999", img: "/Pistachio.webp" }
+              { name: "The Royal Treasury", price: "Rs. 2,499", img: "/dry-fruits-wooden-chest-almond-dates-figs.png" },
+              { name: "Majestic Harvest", price: "Rs. 4,999", img: "/dry-fruits-charcoal-jar-gift-box.png" },
+              { name: "Imperial Gold", price: "Rs. 8,999", img: "/dry-fruits-black-display-assorted-nuts.png" }
             ].map((hamper, i) => (
               <motion.div 
                 key={i}
@@ -216,7 +212,7 @@ const Home = () => {
             </div>
           ) : (
             <Carousel>
-              {bestSellers?.map((product) => (
+              {bestSellers.map((product) => (
                 <ProductCard key={product._id} product={product} />
               ))}
             </Carousel>
@@ -279,12 +275,12 @@ const Home = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {[
-              "/almond.webp",
-              "/cashew.webp",
-              "/Pistachio.webp",
-              "/walnut.webp",
-              "/dates.webp",
-              "/Cranberries.webp"
+              "/dry-fruits-gift-jar-trio.png",
+              "/dry-fruits-ivory-three-compartment-box.png",
+              "/dry-fruits-black-display-assorted-nuts.png",
+              "/dry-fruits-charcoal-jar-gift-box.png",
+              "/dry-fruits-wooden-gourmet-maroon-ribbon-box.png",
+              "/dry-fruits-holi-special-hamper.png"
             ].map((img, i) => (
               <motion.div
                 key={i}
@@ -306,7 +302,7 @@ const Home = () => {
       {/* Newsletter / VIP - NEW */}
       <section className="py-32 bg-white px-4">
         <div className="max-w-5xl mx-auto bg-[#1a2e1a] rounded-[2rem] overflow-hidden relative shadow-2xl border border-[#d4af37]/20 p-12 md:p-24 text-center">
-          <div className="absolute top-0 left-0 w-full h-full bg-[url('/dryfruits-dry-fruits-01.webp')] bg-cover bg-center opacity-10 pointer-events-none" />
+          <div className="absolute top-0 left-0 w-full h-full bg-[url('/dry-fruits-blue-gold-ribbon-box.png')] bg-cover bg-center opacity-10 pointer-events-none" />
           <div className="relative z-10 space-y-12">
             <div className="space-y-4">
               <span className="inline-block p-4 bg-[#d4af37] text-emerald-950 rounded-full mb-6">
@@ -328,7 +324,7 @@ const Home = () => {
                 Join Now
               </button>
             </form>
-            <p className="text-stone-500 text-[9px] uppercase tracking-[0.3em]">No Spam • Only Excellence • Unsubscribe Anytime</p>
+            <p className="text-stone-500 text-[9px] uppercase tracking-[0.3em]">No Spam | Only Excellence | Unsubscribe Anytime</p>
           </div>
         </div>
       </section>
@@ -365,3 +361,5 @@ const Home = () => {
 };
 
 export default Home;
+
+

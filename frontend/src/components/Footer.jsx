@@ -3,21 +3,20 @@ import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
   return (
     <footer className="bg-[#1a2e1a] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
           {/* Company Info */}
           <div className="space-y-8">
-            <Link to="/" className="inline transition-transform duration-300 hover:scale-105">
+            <Link to="/" className="inline-block transition-transform duration-300 hover:scale-105">
               <img 
                 src="/Swarnaratna_Logo.png" 
                 alt="Swarnaratna Logo" 
-                className="h-25 object-contain"
+                className="h-28 w-auto object-contain"
               />
             </Link>
-            <p className="mt-5 text-stone-400 text-[13px] leading-relaxed font-light italic">
+            <p className="text-stone-400 text-[13px] leading-relaxed font-light italic">
               Cultivating a legacy of pure health and luxury since inception. Our commitment to quality is rooted in nature itself.
             </p>
             <div className="flex space-x-6">
@@ -62,21 +61,16 @@ const Footer = () => {
             <h3 className="text-[10px] font-black uppercase tracking-[0.3em] mb-10 text-[#d4af37]">Get in Touch</h3>
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
-                <MapPin className="w-10 text-[#d4af37]" />
+                <MapPin className="w-4 h-4 text-[#d4af37] mt-1" />
                 <span className="text-stone-400 text-[12px] font-light leading-relaxed">
-                  Plot no 811, Nilay Murarka Marg, Ganeshpeth Colony, Nagpur, Maharashtra 440002
+                  Suite 402, Swarna Ratna Towers,<br />
+                  Marine Drive, Mumbai, MH 400002
                 </span>
               </div>
               <div className="flex items-center space-x-4">
                 <Mail className="w-4 h-4 text-[#d4af37]" />
                 <span className="text-stone-400 text-[12px] font-light tracking-wider">
-                  swarnaratna9@gmail.com
-                </span>
-              </div>
-              <div className="flex items-center space-x-4">
-                <Phone className="w-4 h-4 text-[#d4af37]" />
-                <span className="text-stone-400 text-[12px] font-light tracking-wider">
-                  +91 88559 68667
+                  concierge@swarnaratna.com
                 </span>
               </div>
             </div>
@@ -85,7 +79,7 @@ const Footer = () => {
 
         <div className="border-t border-white/5 mt-24 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-stone-600 text-[10px] font-black uppercase tracking-[0.2em]">
-            &copy; {currentYear} Swarnaratna Premium Dry Fruits
+            © 2024 Swarnaratna Premium Dry Fruits
           </p>
           <div className="flex space-x-8 text-stone-600 text-[10px] font-black uppercase tracking-[0.2em]">
             <Link to="#" className="hover:text-stone-400 transition-colors">Privacy</Link>

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const AuthContext = createContext();
 
-const API_URL = 'http://localhost:5000/api/users';
+const API_URL = 'https://swarnaratna.onrender.com/api/users';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);

@@ -177,77 +177,56 @@ const Header = () => {
           </AnimatePresence>
         </div>
 
-        {/* Mobile Navigation Sidebar */}
+                {/* Mobile Navigation Dropdown */}
         <AnimatePresence>
           {isMenuOpen && (
-            <>
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setIsMenuOpen(false)}
-                className="fixed inset-0 bg-black/95 backdrop-blur-md z-[1100] lg:hidden"
-              />
-              <motion.div 
-                initial={{ x: '100%' }}
-                animate={{ x: 0 }}
-                exit={{ x: '100%' }}
-                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                className="fixed right-0 top-0 bottom-0 w-[70%] sm:w-[60%] max-w-xs bg-[#102417] z-[1200] lg:hidden px-8 py-16 shadow-2xl border-l border-white/10 flex flex-col"
-              >
-                <div className="flex justify-between items-center mb-16">
-                  <img src="/Swarnaratna_Logo.jpeg" className="h-12 w-auto object-contain" alt="Logo" />
-                  <button 
+            <motion.div 
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.2 }}
+              className="absolute top-full left-0 right-0 bg-white border-b border-stone-200 shadow-2xl z-[1200] lg:hidden"
+            >
+              <nav className="px-6 py-6 space-y-4">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className="p-2 text-[#d4af37] border border-[#d4af37]/20 rounded-full"
+                    className={`block text-base font-black uppercase tracking-[0.18em] transition-colors ${
+                      isActive(item.href) ? 'text-emerald-900' : 'text-stone-700 hover:text-emerald-900'
+                    }`}
                   >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-                
-                <nav className="flex-1 space-y-8">
-                  {navigation.map((item, idx) => (
-                    <motion.div
-                      key={item.name}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: idx * 0.1 }}
-                    >
-                      <Link
-                        to={item.href}
-                        onClick={() => setIsMenuOpen(false)}
-                        className={`block text-base font-bold uppercase tracking-[0.2em] transition-colors ${
-                          isActive(item.href) ? 'text-[#d4af37]' : 'text-white/90 hover:text-[#d4af37]'
-                        }`}
-                      >
-                        {item.name}
-                      </Link>
-                    </motion.div>
-                  ))}
-                </nav>
+                    {item.name}
+                  </Link>
+                ))}
+              </nav>
 
-                <div className="pt-10 border-t border-white/5 space-y-8">
-                  {user ? (
-                    <div className="flex flex-col space-y-4">
-                      <Link to="/profile" onClick={() => setIsMenuOpen(false)} className="text-[#d4af37] font-black uppercase tracking-[0.2em] text-[10px]">Registry: {user.name}</Link>
-                      <button onClick={logout} className="text-red-400 hover:text-red-500 font-black uppercase tracking-[0.2em] text-[10px] text-left">Sign Out</button>
-                    </div>
-                  ) : (
-                    <Link 
-                      to="/login" 
-                      onClick={() => setIsMenuOpen(false)} 
-                      className="flex items-center justify-center w-full bg-[#d4af37] text-emerald-950 py-4 px-6 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white transition-all duration-500 shadow-2xl"
-                    >
-                      Authenticate
+              <div className="px-6 pb-6 pt-2 border-t border-stone-100 space-y-4">
+                {user ? (
+                  <div className="flex flex-col gap-3">
+                    <Link to="/profile" onClick={() => setIsMenuOpen(false)} className="text-emerald-900 font-black uppercase tracking-[0.16em] text-[10px]">
+                      Registry: {user.name}
                     </Link>
-                  )}
-                  <div className="flex justify-start space-x-6">
-                    <Heart className="w-5 h-5 text-white/40" />
-                    <User className="w-5 h-5 text-white/40" />
+                    <button onClick={logout} className="text-red-600 hover:text-red-700 font-black uppercase tracking-[0.16em] text-[10px] text-left">
+                      Sign Out
+                    </button>
                   </div>
+                ) : (
+                  <Link 
+                    to="/login" 
+                    onClick={() => setIsMenuOpen(false)} 
+                    className="flex items-center justify-center w-full bg-emerald-900 text-white py-3 px-6 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-emerald-950 transition-colors"
+                  >
+                    Authenticate
+                  </Link>
+                )}
+                <div className="flex justify-start space-x-6">
+                  <Heart className="w-5 h-5 text-emerald-900" />
+                  <User className="w-5 h-5 text-emerald-900" />
                 </div>
-              </motion.div>
-            </>
+              </div>
+            </motion.div>
           )}
         </AnimatePresence>
       </header>
@@ -260,4 +239,5 @@ const Header = () => {
 };
 
 export default Header;
+
 
